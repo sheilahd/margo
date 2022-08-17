@@ -1,14 +1,34 @@
+<%if user_signed_in?%>
+  <table class="table table-striped table-bordered table-hover" >
+    <thead class="thead-dark">
+      <tr>
+        <th>Name</th>        
+        
+        <th>Phone</th>
+        <th>Kids Names</th>
+        <th></th>
+  
+      </tr>
+    </thead>
 
 
-<h1>My Friends's List</h1>
+    <tbody>
+      <% @friends.each do |friend| %>
+        <% if friend.user == current_user %>
+          <tr>       
+            <td><%= link_to friend.first_name + ' ' + friend.last_name, friend %></td>
+            <td><%= friend.phone %></td>
+            <td><%= friend.kids_names %></td>           
+            <td><%= link_to 'Delete this friend', friend, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-outline-danger btn-sm" %></td>
+          </tr>
+        <%end%>
+      <% end %>
+    </tbody>
+  </table>
 
-<div id="friends">
-  <% @friends.each do |friend| %>
-    <%= render friend %>
-    <p>
-      <%= link_to "Show this friend", friend %>
-    </p>
-  <% end %>
-</div>
+  <br>
 
-<%= link_to "New friend", new_friend_path %>
+  <%= link_to 'Add New Friend', new_friend_path, class: "btn btn-primary" %>
+<%else%>
+  <h1>Hello!!!</h1>
+<%end%>
